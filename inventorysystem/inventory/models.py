@@ -23,9 +23,9 @@ class Item(models.Model):
     descricao = models.CharField(max_length=200)
     data_cadastro = models.DateTimeField(default=timezone.now)
     quantidade = models.IntegerField()
-    item_categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE, null=True)
-    item_fornecedor = models.ForeignKey(Fornecedor, on_delete=models.CASCADE, null=True)
-    item_filial = models.ForeignKey(Filial, on_delete=models.CASCADE, null=True)
+    item_categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE)
+    item_fornecedor = models.ForeignKey(Fornecedor, on_delete=models.CASCADE)
+    item_filial = models.ForeignKey(Filial, on_delete=models.CASCADE)
 
 class Cliente(models.Model):
     nome = models.CharField(max_length=200)
