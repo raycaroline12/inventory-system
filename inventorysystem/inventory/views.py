@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from inventory.models import Categoria, Fornecedor, Filial, Item
+from inventory.models import Categoria, Fornecedor, Filial, Item, Cliente
 from django.contrib.auth.decorators import login_required
 from .forms import AddItem, AddFornecedor, AddCategoria, AddFilial, RegisterTransaction
 
@@ -60,10 +60,18 @@ def inventory(request):
 
     return render(request, 'tables.html', context)
 
+@login_required
 def transactions(request):
-     return render(request, 'transactions.html')
+     context = {
+           "transactions": "active"
+     }
+     return render(request, 'transactions.html', context)
 
+@login_required
 def register_transaction(request):
+     itens = Item.objects.all()
+     clientes = Cliente.objects.all()   
+
      if request.method == "POST":
          transaction_form = RegisterTransaction(request.POST)
          if transaction_form.is_valid():
@@ -74,7 +82,10 @@ def register_transaction(request):
          transaction_form = RegisterTransaction()
      
      context = {
-          "transaction_form": transaction_form
+          "transactions": "active",
+          "transaction_form": transaction_form,
+          "itens": itens,
+          "clientes": clientes,
      }
 
      return render(request, 'register_transaction.html', context)
