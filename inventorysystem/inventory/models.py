@@ -2,6 +2,7 @@ from datetime import MAXYEAR
 from django.db import models
 from django.db.models.deletion import CASCADE
 from django.utils import timezone
+from django.contrib.auth.models import User
 
 
 class Categoria(models.Model):
@@ -26,8 +27,12 @@ class Item(models.Model):
     item_categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE)
     item_fornecedor = models.ForeignKey(Fornecedor, on_delete=models.CASCADE)
     item_filial = models.ForeignKey(Filial, on_delete=models.CASCADE)
+    
+    def __str__(self):
+        return self.descricao
 
 class Cliente(models.Model):
+    cpf = models.IntegerField(primary_key=True, default=0)
     nome = models.CharField(max_length=200)
     telefone = models.CharField(max_length=11)
     cidade = models.CharField(max_length=200)
@@ -35,3 +40,12 @@ class Cliente(models.Model):
     endereco = models.CharField(max_length=200)
     numero = models.CharField(max_length=5)
     cep = models.CharField(max_length=8)
+    
+    def __str__(self):
+        return self.nome
+
+class Movimentacoes(models.Model):
+    id_item = models.ForeignKey(Item, on_delete=models.CASCADE)
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE)
+    cpf_cliente = models.ForeignKey(Cliente, on_delete=CASCADE)
+    data_saida = models.DateTimeField(default=timezone.now)

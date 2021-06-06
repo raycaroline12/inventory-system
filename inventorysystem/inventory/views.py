@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
-from inventory.models import Categoria, Fornecedor, Filial, Item, Cliente
+from inventory.models import Categoria, Fornecedor, Filial, Item
 from django.contrib.auth.decorators import login_required
-from .forms import AddItem, AddFornecedor, AddCategoria, AddFilial
+from .forms import AddItem, AddFornecedor, AddCategoria, AddFilial, RegisterTransaction
 
 @login_required
 def inventory(request):
@@ -59,3 +59,22 @@ def inventory(request):
     }
 
     return render(request, 'tables.html', context)
+
+def transactions(request):
+     return render(request, 'transactions.html')
+
+def register_transaction(request):
+     if request.method == "POST":
+         transaction_form = RegisterTransaction(request.POST)
+         if transaction_form.is_valid():
+            transaction_form.save()
+            
+            return redirect('transaction')
+     else:
+         transaction_form = RegisterTransaction()
+     
+     context = {
+          "transaction_form": transaction_form
+     }
+
+     return render(request, 'register_transaction.html', context)
