@@ -36,6 +36,8 @@ INSTALLED_APPS = [
     'dashboard',
     'accounts',
     'crispy_forms',
+    'django_filters',
+    'cpf_field',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

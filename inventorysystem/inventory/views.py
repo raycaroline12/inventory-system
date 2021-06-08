@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
 from inventory.models import Categoria, Fornecedor, Filial, Item, Cliente
 from django.contrib.auth.decorators import login_required
-from .forms import AddItem, AddFornecedor, AddCategoria, AddFilial, RegisterTransaction
+from .forms import AddItem, AddFornecedor, AddCategoria, AddFilial, RegisterCliente, RegisterTransaction
+from .filters import FilterItem, FilterCPF
 
 @login_required
 def inventory(request):
@@ -9,6 +10,9 @@ def inventory(request):
     categorias = Categoria.objects.all()
     fornecedores = Fornecedor.objects.all()
     filiais = Filial.objects.all()
+
+    myFilter = FilterItem(request.GET, queryset=itens)
+    itens = myFilter.qs
 
     if request.method == "POST":
          item_form = AddItem(request.POST)
@@ -55,7 +59,8 @@ def inventory(request):
         "item_form": item_form,
         "categoria_form": categoria_form,
         "fornecedor_form": fornecedor_form,
-        "filial_form": filial_form
+        "filial_form": filial_form,
+        "myFilter": myFilter,
     }
 
     return render(request, 'tables.html', context)
@@ -70,7 +75,10 @@ def transactions(request):
 @login_required
 def register_transaction(request):
      itens = Item.objects.all()
-     clientes = Cliente.objects.all()   
+     clientes = Cliente.objects.all()
+
+     cpfFilter = FilterCPF(request.GET, queryset=clientes)
+     clientes = cpfFilter.qs   
 
      if request.method == "POST":
          transaction_form = RegisterTransaction(request.POST)
@@ -81,11 +89,22 @@ def register_transaction(request):
      else:
          transaction_form = RegisterTransaction()
      
+     if request.method == "POST":
+         client_form = RegisterCliente(request.POST)
+         if client_form.is_valid():
+            client_form.save()
+            
+            return redirect('register_transaction')
+     else:
+         client_form = RegisterCliente()
+
      context = {
           "transactions": "active",
           "transaction_form": transaction_form,
           "itens": itens,
           "clientes": clientes,
+          "client_form": client_form,
+          "cpfFilter": cpfFilter,
      }
 
      return render(request, 'register_transaction.html', context)

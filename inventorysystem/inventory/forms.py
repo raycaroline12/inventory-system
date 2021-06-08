@@ -1,5 +1,5 @@
 from django.forms import ModelForm
-from .models import Item, Categoria, Filial, Fornecedor, Movimentacoes
+from .models import Cliente, Item, Categoria, Filial, Fornecedor, Movimentacoes
 from django.utils.translation import gettext_lazy as _
 
 class AddItem(ModelForm):
@@ -32,4 +32,14 @@ class AddFornecedor(ModelForm):
 class RegisterTransaction(ModelForm):
     class Meta:
         model = Movimentacoes
-        fields = ['id_item', 'cpf_cliente']
+        fields = ['id_item', 'cpf_cliente', 'quantidade']
+
+class RegisterCliente(ModelForm):
+    class Meta:
+        model = Cliente
+        fields = '__all__'
+        labels = {
+            'cpf': _('CPF:'),
+            'endereco': _('Endereço'),
+            'cep': _('CEP'),
+        }

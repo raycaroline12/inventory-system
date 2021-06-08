@@ -31,11 +31,21 @@
             <div class="row">
               <div class="col-md-6">
                 <div class="card card-frame">
+                  <div class="card-header pb-0">
+                    <div class="row">
+                      <div class="col">
+                        <p>Selecione o item:</p>
+                      </div>
+                      <div class="col d-flex justify-content-end">
+                      </div>
+                    </div>
+                  </div>
                   <div class="card-body">
                     <div class="table-responsive p-2">
                       <table class="table table-hover table-sm table-responsive align-items-center mb-0">
                         <thead>
                           <tr>
+                            <th></th>
                             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ID</th>
                             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Descrição</th>
                             <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Quantidade</th>
@@ -49,12 +59,12 @@
                           {% for it in itens %}
                           <tr>
                             <td><input type="radio" name="id_item" value="{{it.id}}"></td>
-                            <td class="text-xs">{{it.id}}</td>
-                            <td class="text-xs">{{it.descricao}}</td>
-                            <td class="text-xs">{{it.quantidade}}</td>
-                            <td class="text-xs">{{it.item_categoria.categoria}}</td>
-                            <td class="text-xs">{{it.item_fornecedor.fornecedor}}</td>
-                            <td class="text-xs">{{it.item_filial.filial}}</td>
+                            <td class="text-xs align-middle text-center">{{it.id}}</td>
+                            <td class="text-xs align-middle text-center">{{it.descricao}}</td>
+                            <td class="text-xs align-middle text-center">{{it.quantidade}}</td>
+                            <td class="text-xs align-middle text-center">{{it.item_categoria.categoria}}</td>
+                            <td class="text-xs align-middle text-center">{{it.item_fornecedor.fornecedor}}</td>
+                            <td class="text-xs align-middle text-center">{{it.item_filial.filial}}</td>
                           </tr>
                           {% endfor %}
                         </tbody>
@@ -65,13 +75,31 @@
               </div>
               <div class="col-md-6">
                 <div class="card card-frame">
+                  <div class="card-header pb-0">
+                    <div class="row">
+                      <div class="col">
+                        <p>Selecione o cliente:</p>
+                      </div>
+                      <div class="col d-flex justify-content-end">
+                        <button class="btn bg-gradient-primary btn-sm" type="button"  data-bs-toggle="modal" data-bs-target="#clientemodal">
+                          Cadastrar Cliente
+                        </button>
+                      </div>
+                    </div>
+                    <div class="row mb-2 form-group">
+                      <form method="get">
+                        {{cpfFilter.form|crispy}}
+                        <button class="btn btn-secondary btn-sm" type="submit">Filtrar</button>
+                      </form>
+                    </div>
                   <div class="card-body">
                     <div class="table-responsive p-0">
                       <table class="table table-hover table-sm align-items-center mb-0">
                         <thead>
                           <tr>
-                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">CPF</th>
-                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Nome</th>
+                            <th></th>
+                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">CPF</th>
+                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Nome</th>
                             <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Telefone</th>
                             <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Endereço</th>
                             <th class="text-secondary opacity-7"></th>
@@ -81,10 +109,10 @@
                           {% for cliente in clientes %}
                           <tr>
                             <td><input type="radio" name="cpf_cliente" value="{{cliente.cpf}}"></td>
-                            <td class="text-lg">{{cliente.cpf}}</td>
-                            <td>{{cliente.nome}}</td>
-                            <td>{{cliente.telefone}}</td>
-                            <td>{{cliente.endereco}}{{numero}}</td>
+                            <td class="text-xs align-middle text-center">{{cliente.cpf}}</td>
+                            <td class="text-xs align-middle text-center">{{cliente.nome}}</td>
+                            <td class="text-xs align-middle text-center">{{cliente.telefone}}</td>
+                            <td class="text-xs align-middle text-center">{{cliente.endereco}}{{numero}}</td>
                           </tr>
                           {% endfor %}
                         </tbody>
@@ -100,4 +128,35 @@
     </div>
   </div>
  </div> 
-  {% endblock %}
+
+ <div class="modal fade" id="clientemodal" tabindex="-1" role="dialog" aria-labelledby="clientemodal" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-body p-0">
+        <div class="card card-plain">
+          <div class="card-header pb-0 text-left">
+            <div class="row">
+              <div class="col">
+                <h3 class="font-weight-bolder text-info text-gradient">Cadastrar Cliente</h3>
+              </div>
+              <div class="col d-flex justify-content-end">
+                <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Close</button>
+              </div>                
+            </div>
+          </div>
+          <div class="card-body form-group">
+            <form role="form text-left" method="post">
+              {% csrf_token %}
+              {{ client_form|crispy }}
+              <div class="text-center">
+                <button type="submit" class="btn btn-round bg-gradient-info btn-lg w-100 mt-4 mb-0">Cadastrar</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
