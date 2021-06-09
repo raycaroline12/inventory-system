@@ -1,8 +1,10 @@
 from datetime import MAXYEAR
 from django.db import models
 from django.db.models.deletion import CASCADE
+from django.db.models.fields import IntegerField
 from django.utils import timezone
 from django.contrib.auth.models import User
+from cpf_field.models import CPFField
 
 
 class Categoria(models.Model):
@@ -23,7 +25,6 @@ class Filial(models.Model):
 class Item(models.Model):
     descricao = models.CharField(max_length=200)
     data_cadastro = models.DateTimeField(default=timezone.now)
-    quantidade = models.IntegerField()
     item_categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE)
     item_fornecedor = models.ForeignKey(Fornecedor, on_delete=models.CASCADE)
     item_filial = models.ForeignKey(Filial, on_delete=models.CASCADE)
@@ -32,7 +33,7 @@ class Item(models.Model):
         return self.descricao
 
 class Cliente(models.Model):
-    cpf = models.IntegerField(primary_key=True, default=0)
+    cpf = CPFField(primary_key=True)
     nome = models.CharField(max_length=200)
     telefone = models.CharField(max_length=11)
     cidade = models.CharField(max_length=200)
