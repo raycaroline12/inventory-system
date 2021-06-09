@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 {% load crispy_forms_tags %}
 
+{% block title %}Movimentação/Realizar Movimentação{% endblock %}
+
 <style>
   table {
     display: block;
@@ -26,7 +28,7 @@
           </div>
         </div>
         <div class="card-body px-0 pt-0 pb-2">
-          <form action="POST">
+          <form method="post">
             {% csrf_token %}
             <div class="row">
               <div class="col-md-6">
@@ -48,7 +50,6 @@
                             <th></th>
                             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ID</th>
                             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Descrição</th>
-                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Quantidade</th>
                             <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Categoria</th>
                             <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Fornecedor</th>
                             <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Filial</th>
@@ -58,10 +59,9 @@
                         <tbody>
                           {% for it in itens %}
                           <tr>
-                            <td><input type="radio" name="id_item" value="{{it.id}}"></td>
+                            <td><input class="form-check-input" type="radio" id="id_item" name="id_item" value="{{it.id}}"></td>
                             <td class="text-xs align-middle text-center">{{it.id}}</td>
                             <td class="text-xs align-middle text-center">{{it.descricao}}</td>
-                            <td class="text-xs align-middle text-center">{{it.quantidade}}</td>
                             <td class="text-xs align-middle text-center">{{it.item_categoria.categoria}}</td>
                             <td class="text-xs align-middle text-center">{{it.item_fornecedor.fornecedor}}</td>
                             <td class="text-xs align-middle text-center">{{it.item_filial.filial}}</td>
@@ -86,10 +86,15 @@
                         </button>
                       </div>
                     </div>
-                    <div class="row mb-2 form-group">
+                    <div class="row form-group" style="display: inline;">
                       <form method="get">
-                        {{cpfFilter.form|crispy}}
-                        <button class="btn btn-secondary btn-sm" type="submit">Filtrar</button>
+                        <div class="row">
+                          <div class="col-md-6"></div>
+                            {{cpfFilter.form}}
+                          </div>
+                          <div class="col-md-6">
+                            <button class="btn btn-secondary btn-sm" type="submit">Filtrar</button>
+                          </div>
                       </form>
                     </div>
                   <div class="card-body">
@@ -108,7 +113,7 @@
                         <tbody>
                           {% for cliente in clientes %}
                           <tr>
-                            <td><input type="radio" name="cpf_cliente" value="{{cliente.cpf}}"></td>
+                            <td><input class="form-check-input" type="radio" id="cpf_cliente" name="cpf_cliente" value="{{cliente.cpf}}"></td>
                             <td class="text-xs align-middle text-center">{{cliente.cpf}}</td>
                             <td class="text-xs align-middle text-center">{{cliente.nome}}</td>
                             <td class="text-xs align-middle text-center">{{cliente.telefone}}</td>
@@ -120,6 +125,12 @@
                     </div>
                   </div>
                 </div>                
+              </div>
+            </div>
+            <div class="row p-3 d-flex justify-content-end mt-5">
+              <button class="btn bg-gradient-secondary" type="submit" style="max-width: 20%; float: right;">
+                Movimentar
+              </button>
               </div>
             </div>
           </form>

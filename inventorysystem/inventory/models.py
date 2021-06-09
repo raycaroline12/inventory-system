@@ -25,7 +25,6 @@ class Filial(models.Model):
 class Item(models.Model):
     descricao = models.CharField(max_length=200)
     data_cadastro = models.DateTimeField(default=timezone.now)
-    quantidade = models.IntegerField()
     item_categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE)
     item_fornecedor = models.ForeignKey(Fornecedor, on_delete=models.CASCADE)
     item_filial = models.ForeignKey(Filial, on_delete=models.CASCADE)
@@ -51,4 +50,3 @@ class Movimentacoes(models.Model):
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
     cpf_cliente = models.ForeignKey(Cliente, on_delete=CASCADE)
     data_saida = models.DateTimeField(default=timezone.now)
-    quantidade = IntegerField(default=0)

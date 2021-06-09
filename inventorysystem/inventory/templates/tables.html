@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 {% load crispy_forms_tags %}
 
+{% block title %}Inventário{% endblock %}
+
 {% block content %}
 <div class="container-fluid py-4">
   <div class="row">
@@ -17,13 +19,14 @@
               </button>
             </div>
           </div>
-          <div class="row mb-2 form-group">
-            <form method="get">
-              {{myFilter.form|crispy}}
-              <button class="btn btn-secondary btn-sm" type="submit">Filtrar</button>
+          <div class="row mb-2" style="display: inline;">
+            <form class="form-inline" method="get">
+              <div class="form-group">
+                {{myFilter.form}}
+                <button class="btn btn-secondary btn-sm" type="submit">Filtrar</button>
+              </div>
             </form>
           </div>
-        </div>
         <div class="card-body px-0 pt-0 pb-2">
           <div class="table-responsive p-0">
             <table class="table align-items-center mb-0">
@@ -31,7 +34,6 @@
                 <tr>
                   <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ID</th>
                   <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Descrição</th>
-                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Quantidade</th>
                   <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Categoria</th>
                   <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Fornecedor</th>
                   <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Filial</th>
@@ -44,11 +46,15 @@
                 <tr>
                   <td class="align-middle text-center">{{it.id}}</td>
                   <td class="align-middle text-center">{{it.descricao}}</td>
-                  <td class="align-middle text-center">{{it.quantidade}}</td>
                   <td class="align-middle text-center">{{it.item_categoria.categoria}}</td>
                   <td class="align-middle text-center">{{it.item_fornecedor.fornecedor}}</td>
                   <td class="align-middle text-center">{{it.item_filial.filial}}</td>
                   <td class="align-middle text-center">{{it.data_cadastro}}</td>
+                  <td>
+                    <a class="btn btn-sm" href="{% url 'edit-item' it.id %}">
+                      <i class="fas fa-edit"></i>
+                    </a>
+                  </td>
                 </tr>
                 {% endfor %}
               </tbody>

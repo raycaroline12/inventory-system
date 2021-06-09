@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'django_filters',
     'cpf_field',
+    'bootstrapform',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -132,7 +133,7 @@ STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
-LOGIN_REDIRECT_URL = '/inventory'
+LOGIN_REDIRECT_URL = '/home'
 LOGOUT_REDIRECT_URL = ''
 
-CRISPY_TEMPLATE_PACK='bootstrap4'
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
