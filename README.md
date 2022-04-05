@@ -1,5 +1,7 @@
 # Inventory System
 
+Micro Inventory System developed using Django framework.
+
 ## Requirements
 
 * Python 3.7.6+ 64-bit
